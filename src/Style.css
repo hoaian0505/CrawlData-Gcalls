@@ -1,0 +1,138 @@
+
+.Tittle {
+    color: white;
+    padding: 30px;
+    font-family: Arial;
+    text-align: center;
+    font-size:50px;
+    background:#687864;
+  }
+  
+body{
+    background: #F2F2F2;
+}
+
+.Center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 50px;
+}
+
+.Right {
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 10px;
+    margin-bottom:-30px;
+}
+
+.Nhap{
+    transition: width 2s;
+    font-size:28px;
+    border:none;
+}
+
+.Nhap:focus{
+    border: 2px solid blue;
+    width:1000px;
+}
+
+
+.ThayDoi{
+    transition: width 1s ease-in-out;
+    font-size:20px;
+    border:none;
+}
+
+.ThayDoi:focus{
+    border: 2px solid blue;
+}
+
+.ThayDoi:hover{
+    background: rgba(#223254,.03)
+}
+
+button{
+    padding: 10px 30px;
+    border: none;
+    border-radius: 30px;
+    background-color: #31708E;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    font-weight:800;
+}
+button:hover {
+    background: #40a9ff;
+}
+
+#btnGet {
+    margin-top: 30px;
+}
+
+.SelectBox{
+    background: #fff;
+    color: #000;
+    cursor: pointer;
+    font-size:16px;
+    font-weight:600;
+    height:30px;
+  
+    /*for firefox*/
+    -moz-appearance: none;
+    /*for chrome*/
+    -webkit-appearance:none;
+    appearance: none;
+    text-align:center;
+    border: none;
+    box-shadow: none;
+}
+
+#dropDownPage {
+    justify-content: right;
+    margin-right: -8px;
+}
+
+#dropDownLinhVuc{
+    width: 400px;
+}
+
+footer{
+    display: flex;
+    background:#687864;
+    color: #fff;
+    margin-bottom:-20px;
+    height: 70px;
+    align-content: center;
+    justify-content: center;
+}
+
+.icon{ 
+    margin-left:10px;
+    color:#31708E;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.icon:hover{
+    color: #40a9ff;
+
+}
+
+#LinhVucInput{
+    visibility: hidden;
+}
+
+#btnUpdate{
+    visibility: hidden;
+}
+
+.cung1hang{
+    display: inline-grid;
+    grid-template-columns: auto auto auto;
+    margin-bottom: 20px;
+    margin-left: 20px;
+}
+
