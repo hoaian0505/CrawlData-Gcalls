@@ -208,7 +208,7 @@ export default class Index extends React.Component {
   
   XoaPersonnel(){
     var TempUrl='/personnel/linhvuc/'+this.state.selectedLinhVuc;
-    if (this.state.selectedLinhVuc=='Gia Tri Khong Ton Tai'){
+    if (this.state.selectedLinhVuc!='Gia Tri Khong Ton Tai'){
       axios.delete(TempUrl)
       .then(res => this.XoaLinhVuc())
       .catch(error => console.log(error));
