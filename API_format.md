@@ -2,10 +2,6 @@
 ## GET COMPANY INFOMATIONS
 ### URL: https://mydomain.com/personnel/get
 ### Method: GET
-### headers: 
-    Authorization: Basic xxxxxxx
-    Content-Type: application/json
-
 
 ### Response
 ```json
@@ -39,9 +35,6 @@
 ## CREATE NEW COMPANY INFOMATION
 ### URL: https://mydomain.com/savedata
 ### Method: POST
-### headers: 
-    Authorization: Basic xxxxxxx
-    Content-Type: application/json
 ### body:
      {
         _id:string,
@@ -90,9 +83,6 @@
 ## UPDATE LINH VUC CHO COMPANY
 ### URL: https://mydomain.com/personnel/get/:linhvuc
 ### Method: PUT
-### headers: 
-    Authorization: Basic xxxxxxx
-    Content-Type: application/json
 ### body:
     {
        LinhVuc:newLinhVuc;
@@ -128,9 +118,6 @@
 ## DELETE COMPANY THEO LINHVUC
 ### URL: https://mydomain.com/personnel/linhvuc/:linhvuc
 ### Method: DELETE  
-### headers: 
-    Authorization: Basic xxxxxxx
-    Content-Type: application/json
 ### Response
 ```json
 {
@@ -146,10 +133,6 @@
 ## GET COMPANY INFOMATIONS FROM WEB
 ### URL: https://mydomain.com/getlink/:page
 ### Method: GET
-### headers: 
-    Authorization: Basic xxxxxxx
-    Content-Type: application/json
-
 ### Lấy thông tin từ web với page = 1
 
 ### Response
@@ -184,11 +167,6 @@
 ## GET ALL LINHVUC IN DATABASE LINHVUC
 ### URL: https://mydomain.com/linhvuc/linhvuc
 ### Method: GET
-### headers: 
-    Authorization: Basic xxxxxxx
-    Content-Type: application/json
-
-
 ### Response
 ```json
 {
@@ -209,11 +187,6 @@
 ## GET PAGE OF LINHVUC IN DATABASE LINHVUC
 ### URL: https://mydomain.com/linhvuc/page/:linhvuc
 ### Method: GET
-### headers: 
-    Authorization: Basic xxxxxxx
-    Content-Type: application/json
-
-
 ### Response
 ```json
 {
@@ -234,11 +207,6 @@
 ## GET PAGE OF LATEST LINHVUC IN DATABASE LINHVUC
 ### URL: https://mydomain.com/linhvuc/pagelast
 ### Method: GET
-### headers: 
-    Authorization: Basic xxxxxxx
-    Content-Type: application/json
-
-
 ### Response
 ```json
 {
@@ -259,11 +227,6 @@
 ## GET LATEST LINHVUC IN DATABASE LINHVUC
 ### URL: https://mydomain.com/linhvuc/linhvuclast
 ### Method: GET
-### headers: 
-    Authorization: Basic xxxxxxx
-    Content-Type: application/json
-
-
 ### Response
 ```json
 {
@@ -284,11 +247,6 @@
 ## GET DATA WITH LINHVUC IN DATABASE COLLECTION
 ### URL: https://mydomain.com/personnel/get/:linhvuc
 ### Method: GET
-### headers: 
-    Authorization: Basic xxxxxxx
-    Content-Type: application/json
-
-
 ### Response
 ```json
 {
@@ -321,11 +279,6 @@
 ## GET DATA WITH LINHVUC AND PAGE IN DATABASE COLLECTION
 ### URL: https://mydomain.com/personnel/get/:linhvuc/:page
 ### Method: GET
-### headers: 
-    Authorization: Basic xxxxxxx
-    Content-Type: application/json
-
-
 ### Response
 ```json
 {
@@ -358,9 +311,6 @@
 ## CREATE NEW LINHVUC
 ### URL: https://mydomain.com/linhvuc/get
 ### Method: POST
-### headers: 
-    Authorization: Basic xxxxxxx
-    Content-Type: application/json
 ### body:
      {
         _id:string,
@@ -391,9 +341,6 @@
 ## DELETE DATABASE LINHVUC THEO LINHVUC
 ### URL: https://mydomain.com/linhvuc/linhvuc/:linhvuc
 ### Method: DELETE  
-### headers: 
-    Authorization: Basic xxxxxxx
-    Content-Type: application/json
 ### Response
 ```json
 {
@@ -409,9 +356,6 @@
 ## UPDATE LINHVUC CHO DATABASE LINHVUC
 ### URL: https://mydomain.com/linhvuc/linhvuc/:linhvuc
 ### Method: PUT  
-### headers: 
-    Authorization: Basic xxxxxxx
-    Content-Type: application/json
 ### Response
 ```json
 {
@@ -434,9 +378,6 @@
 ## CHECK LINK TRONG DATABASE LINHVUC
 ### URL: https://mydomain.com/linhvuc/link/:linhvuc
 ### Method: GET  
-### headers: 
-    Authorization: Basic xxxxxxx
-    Content-Type: application/json
 ### Response
 ```json
 {
