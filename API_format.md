@@ -368,11 +368,12 @@
 ```json
 {
     success:true,
-    result: 
-        if (response.length == 0)
+    result:[
+        if response.length == 0 
             return true
         else
             return false
+    ]
 }
 //TH lỗi
 {
