@@ -309,6 +309,14 @@ export default class Index extends React.Component {
       expandRowBgColor:  '#5085A5'
     };
 
+    const selectRow = {
+      mode: 'checkbox',  // multi select
+      bgColor: '#40a9ff',
+      hideSelectColumn: true,  // enable hide selection column.
+      clickToSelect: true,  // click to select, default is false
+      clickToExpand: true  // click to expand row, default is false
+    };
+
     var {isLoaded,items,lists,pages} = this.state;
       return (
       <div className="App">
@@ -343,15 +351,16 @@ export default class Index extends React.Component {
           headerStyle={ { color:'#fff',background:'#31708E'} }
           options={ options }
           expandableRow={ this.isExpandableRow }
-          expandComponent={ this.expandComponent }>
-            <TableHeaderColumn row='0' width='20%' rowSpan='2'  dataField='TenCongTy' dataAlign='center' dataSort={true} filter={ { type: 'RegexFilter', placeholder: 'Enter a text' } }>Ten Cong Ty</TableHeaderColumn>
-            <TableHeaderColumn row='0' rowSpan='2'  dataField='_id' isKey={true} hidden>id</TableHeaderColumn>
+          expandComponent={ this.expandComponent }
+          selectRow={ selectRow }>
+            <TableHeaderColumn  row='0' width='20%' rowSpan='2'  dataField='TenCongTy' dataAlign='center' dataSort={true} tdStyle={ { whiteSpace: 'normal' } } filter={ { type: 'RegexFilter', placeholder: 'Enter a text' } }>Ten Cong Ty</TableHeaderColumn>
+            <TableHeaderColumn   row='0' rowSpan='2'  dataField='_id' isKey={true} tdStyle={ { whiteSpace: 'normal' } } hidden>id</TableHeaderColumn>
             <TableHeaderColumn row='0' colSpan='5' dataSort csvHeader='Company' headerAlign='center'>Thông tin Công Ty</TableHeaderColumn>
-            <TableHeaderColumn row='1'  width='25%'  dataField='DiaChi' headerAlign='center' dataSort={true} filter={ { type: 'RegexFilter', placeholder: 'Enter a text' } }>Dia Chi</TableHeaderColumn>
-            <TableHeaderColumn row='1'  width='10%' dataField='LinhVuc' headerAlign='center' dataSort={true} filter={ { type: 'RegexFilter', placeholder: 'Enter a text' } }>Linh Vuc</TableHeaderColumn>
-            <TableHeaderColumn row='1'  width='15%' dataField='SoDienThoai' headerAlign='center' dataSort={true} filter={ { type: 'RegexFilter', placeholder: 'Enter a phone' } }>So Dien Thoai</TableHeaderColumn>
-            <TableHeaderColumn row='1'  width='15%' dataField='Email' headerAlign='center' dataSort={true} filter={ { type: 'RegexFilter', placeholder: 'Enter a email' } }>Email</TableHeaderColumn>
-            <TableHeaderColumn row='1'  width='15%' dataField='Website' headerAlign='center' dataSort={true} filter={ { type: 'RegexFilter', placeholder: 'Enter a text' } }>Website</TableHeaderColumn>
+            <TableHeaderColumn    row='1'  width='25%'  dataField='DiaChi' headerAlign='center' dataSort={true} tdStyle={ { whiteSpace: 'normal' } } filter={ { type: 'RegexFilter', placeholder: 'Enter a text' } }>Dia Chi</TableHeaderColumn>
+            <TableHeaderColumn  row='1'  width='10%' dataField='LinhVuc' headerAlign='center' dataSort={true} tdStyle={ { whiteSpace: 'normal' } } filter={ { type: 'RegexFilter', placeholder: 'Enter a text' } }>Linh Vuc</TableHeaderColumn>
+            <TableHeaderColumn  row='1'  width='15%' dataField='SoDienThoai' headerAlign='center' dataSort={true} tdStyle={ { whiteSpace: 'normal' } } filter={ { type: 'RegexFilter', placeholder: 'Enter a phone' } }>So Dien Thoai</TableHeaderColumn>
+            <TableHeaderColumn row='1'  width='15%' dataField='Email' headerAlign='center' dataSort={true} tdStyle={ { whiteSpace: 'normal' } } filter={ { type: 'RegexFilter', placeholder: 'Enter a email' } }>Email</TableHeaderColumn>
+            <TableHeaderColumn  row='1'  width='15%' dataField='Website' headerAlign='center' dataSort={true} tdStyle={ { whiteSpace: 'normal' } } filter={ { type: 'RegexFilter', placeholder: 'Enter a text' } }>Website</TableHeaderColumn>
             </BootstrapTable>
           </div>
       </div>);
