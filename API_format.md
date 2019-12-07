@@ -7,8 +7,7 @@
 ```json
 {
     success:true,
-    result: [
-        {
+    result: {
             _id:string,
             Trang:number,
             LinhVuc:string,
@@ -23,7 +22,7 @@
                 SoDiDongNguoiLienHe:string
             ]
         }
-    ]
+    
 }
 //TH lỗi
 {
@@ -139,8 +138,7 @@
 ```json
 {
     success:true,
-    result: [
-        {
+    result: {
             _id:string,
             Trang:number,
             LinhVuc:string,
@@ -155,7 +153,7 @@
                 SoDiDongNguoiLienHe:string
             ]
         }
-    ]
+    
 }
 //TH lỗi
 {
@@ -171,11 +169,9 @@
 ```json
 {
     success:true,
-    result: 
-        {
+    result:{
             LinhVuc:string,
         }
-    ]
 }
 //TH lỗi
 {
@@ -191,11 +187,9 @@
 ```json
 {
     success:true,
-    result: 
-        {
+    result: {
             TongSoTrang:number,
         }
-    ]
 }
 //TH lỗi
 {
@@ -211,11 +205,9 @@
 ```json
 {
     success:true,
-    result: 
-        {
+    result: {
             TongSoTrang:number,
         }
-    ]
 }
 //TH lỗi
 {
@@ -231,11 +223,9 @@
 ```json
 {
     success:true,
-    result: 
-        {
+    result: {
             LinhVuc:string,
         }
-    ]
 }
 //TH lỗi
 {
@@ -251,8 +241,7 @@
 ```json
 {
     success:true,
-    result: 
-        {
+    result: {
             _id:string,
             Trang:number,
             LinhVuc:string,
@@ -267,7 +256,6 @@
                 SoDiDongNguoiLienHe:string
             ]
         }
-    ]
 }
 //TH lỗi
 {
@@ -283,8 +271,7 @@
 ```json
 {
     success:true,
-    result: 
-        {
+    result: {
             _id:string,
             Trang:number,
             LinhVuc:string,
@@ -299,7 +286,6 @@
                 SoDiDongNguoiLienHe:string
             ]
         }
-    ]
 }
 //TH lỗi
 {
@@ -384,9 +370,9 @@
     success:true,
     result: 
         if (response.length == 0)
-            return true; 
+            return true
         else
-            return false;
+            return false
 }
 //TH lỗi
 {
