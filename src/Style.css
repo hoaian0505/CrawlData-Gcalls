@@ -1,10 +1,10 @@
 
 .Tittle {
     color: white;
-    padding: 30px;
+    padding: 25px;
     font-family: Arial;
     text-align: center;
-    font-size:50px;
+    font-size:40px;
     background:#687864;
   }
   
@@ -104,7 +104,7 @@ footer{
     background:#687864;
     color: #fff;
     margin-bottom:-20px;
-    height: 70px;
+    height: 60px;
     align-content: center;
     justify-content: center;
 }
@@ -134,4 +134,12 @@ footer{
     grid-template-columns: auto auto auto;
     margin-bottom: 20px;
     margin-left: 20px;
+}
+
+.NoContact{
+    color: #fff;
+}
+
+.CustomSelectRow{
+    font-weight: 800;
 }
