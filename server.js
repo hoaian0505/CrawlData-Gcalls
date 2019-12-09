@@ -184,10 +184,6 @@ app.get('/personnel/get', (request, response) => {
           
           if ($(body2).find('div#listing_detail_right > div:first-of-type').hasClass('banladoanhnghiep') != true)
           {
-            // let HoTenPerVal = normalize($(body1).find('div#listing_detail_right > div:first-of-type > div:nth-of-type(3) > div:last-of-type').text());
-            // let EmailPerVal = normalize($(body1).find('div#listing_detail_right > div:first-of-type > div:last-of-type > div:last-of-type').text());
-            // let TelPerVal = normalize($(body1).find('div#listing_detail_right > div:first-of-type > div:nth-last-of-type(2) > div:last-of-type').text());
-            
             var HoTenPerVal,EmailPerVal,TelPerVal,PhonePerVal;
             var kt=false;
             var dss= $(body2).find('div#listing_detail_right > div:first-of-type > div > div:nth-of-type(2)');
