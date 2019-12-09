@@ -29,7 +29,6 @@ body{
 }
 
 .Nhap{
-    transition: width 2s;
     font-size:28px;
     border:none;
 }
@@ -41,7 +40,6 @@ body{
 
 
 .ThayDoi{
-    transition: width 1s ease-in-out;
     font-size:20px;
     border:none;
 }
@@ -50,9 +48,6 @@ body{
     border: 2px solid blue;
 }
 
-.ThayDoi:hover{
-    background: rgba(#223254,.03)
-}
 
 button{
     padding: 10px 30px;
