@@ -135,6 +135,14 @@ footer{
     color: #fff;
 }
 
+.Contact{
+    color:#000;
+    background-color: #31708E;
+}
 .CustomSelectRow{
     font-weight: 800;
+}
+
+.col-hidden{
+    display: none;
 }

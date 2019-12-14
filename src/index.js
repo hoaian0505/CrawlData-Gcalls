@@ -7,15 +7,23 @@ import './Style.css';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import {IoMdTrash,IoMdCreate,IoMdCheckmarkCircleOutline} from 'react-icons/io';
 
+const normalize = require('normalize-text').normalizeWhitespaces;
+
 var x='';
+
+const options1 = [
+  { value: 'chocolate', label: 'Chocolate' },
+  { value: 'strawberry', label: 'Strawberry' },
+  { value: 'vanilla', label: 'Vanilla' }
+]
 
 
 class BSTable extends React.Component {
   render() {
-    if ((this.props.data[0].HoTenNguoiLienHe == undefined) &&
-              (this.props.data[0].EmailNguoiLienHe == undefined) &&
-              (this.props.data[0].SoDienThoaiNguoiLienHe == undefined) &&
-              (this.props.data[0].SoDiDongNguoiLienHe == undefined))
+    if ((this.props.data[0].NameContact == undefined) &&
+              (this.props.data[0].EmailContact == undefined) &&
+              (this.props.data[0].TelContact == undefined) &&
+              (this.props.data[0].CellPhoneContact == undefined))
     {
       return (
       <div align="center" className="NoContact">
@@ -25,12 +33,12 @@ class BSTable extends React.Component {
     }
     else if (this.props.data) {
       return (
-        <BootstrapTable data={ this.props.data }>
-          <TableHeaderColumn row='0' colSpan='4' dataSort csvHeader='Contact' headerAlign='center' >Thông tin Người Liên Hệ</TableHeaderColumn>
-          <TableHeaderColumn row='1'  dataField='HoTenNguoiLienHe' width='25%' headerAlign='center' dataSort={true} tdStyle={ { whiteSpace: 'normal' } } filter={ { type: 'RegexFilter', placeholder: 'Enter a text' } }>Họ Tên Người Liên Hệ</TableHeaderColumn>
-          <TableHeaderColumn row='1'  isKey dataField='EmailNguoiLienHe' width='25%' headerAlign='center' dataSort={true} tdStyle={ { whiteSpace: 'normal' } } filter={ { type: 'RegexFilter', placeholder: 'Enter an email' } }>Email Người Liên Hệ</TableHeaderColumn>
-          <TableHeaderColumn row='1'  dataField='SoDienThoaiNguoiLienHe' width='25%' headerAlign='center' dataSort={true} tdStyle={ { whiteSpace: 'normal' } } filter={ { type: 'RegexFilter', placeholder: 'Enter a phone' } }>Số Điện Thoại Người Liên Hệ</TableHeaderColumn>
-          <TableHeaderColumn row='1'  dataField='SoDiDongNguoiLienHe' width='25%' headerAlign='center' dataSort={true} tdStyle={ { whiteSpace: 'normal' } } filter={ { type: 'RegexFilter', placeholder: 'Enter a phone' } }>Số Di Động Người Liên Hệ</TableHeaderColumn>
+        <BootstrapTable data={ this.props.data } tableHeaderClass={"col-hidden"} tableBodyClass={"Contact"} bodyStyle={ { background: '#00ff00' } }>
+          <TableHeaderColumn row='0' colSpan='4' csvHeader='Contact' headerAlign='center' >Thông tin Người Liên Hệ</TableHeaderColumn>
+          <TableHeaderColumn row='1'  dataField='NameContact' width='25%' tdStyle={ { whiteSpace: 'normal' } }></TableHeaderColumn>
+          <TableHeaderColumn row='1'  isKey dataField='EmailContact' width='25%' headerAlign='center'  tdStyle={ { whiteSpace: 'normal' } } ></TableHeaderColumn>
+          <TableHeaderColumn row='1'  dataField='TelContact' width='25%' headerAlign='center'  tdStyle={ { whiteSpace: 'normal' } }></TableHeaderColumn>
+          <TableHeaderColumn row='1'  dataField='CellPhoneContact' width='25%' headerAlign='center'  tdStyle={ { whiteSpace: 'normal' } } ></TableHeaderColumn>
         </BootstrapTable>);
     } 
   }
@@ -44,7 +52,9 @@ export default class Index extends React.Component {
         items:[],
         lists:[],
         pages:[],
-        selectedLinhVuc:"",
+        selectedField:'', // only contains val
+        listSelectedField:[], // only contains val
+        selectedOptions:[], //It's not a good idea, but can run, it contains all info, inc:val + label
         selectedPage:"",
         isLoaded:false,
         isAdded:false,
@@ -76,7 +86,7 @@ export default class Index extends React.Component {
   getAllData(i,n) {
         var TempUrl='/getlink/'+i;
         axios.get(TempUrl)
-        .then(res => {this.luuThongTin(res.data)})
+        .then(res => {this.saveDataCompany(res.data)})
         .then(()=>
           {if (i<n){
             this.getAllData(i+1,n);
@@ -87,20 +97,22 @@ export default class Index extends React.Component {
         .catch(error => console.log(error))
   }
 
-  getLinhVuc() {
-    axios.get('/linhvuc/linhvuc')
-    .then(res => {
-      this.setState({
-          lists: res.data,       
-      })
+  getField() {
+    var Temp=[];
+    axios.get('/field/allfields')
+    .then(res => {(res.data).map((data1,i) => Temp[i]={value:data1,label:data1})
     })
-    .then(res=>console.log(this.state.lists))
-    //.then(console.log(this.state.options))
+
+    .then(()=>  this.setState({
+           lists:Temp,       
+    }))
+    .then(()=>console.log('List linh Vuc: ',this.state.lists))
+    .then(() => console.log(Temp))
     .catch(error => console.log(error));
   }
 
-  getPageWithLinhVuc(obj) {
-    var TempUrl = '/linhvuc/page/'+obj;
+  getPageByField(obj) {
+    var TempUrl = '/field/page/'+obj;
     axios.get(TempUrl)
     //.then(res =>{console.log(res.data)})
     .then(res => {
@@ -116,7 +128,7 @@ export default class Index extends React.Component {
   }
 
   getLastPage() {
-    axios.get('/linhvuc/pagelast')
+    axios.get('/field/pagelast')
     .then(res => {
       var TempPages=[];
       for(var j=1;j<=Number(res.data);j++){
@@ -129,19 +141,20 @@ export default class Index extends React.Component {
     .catch(error => console.log(error));
   }
   
-  getLastLinhVuc() {
-    axios.get('/linhvuc/linhvuclast')
+  getLastField() {
+    axios.get('/field/fieldlast')
     .then(res => {
       this.setState({
-        selectedLinhVuc: res.data,     
+        selectedField: res.data,     
+        selectedOptions: {value:res.data,label:res.data},
         selectedPage: '1',  
       })
     })
     .catch(error => console.log(error));
   }
 
-  getDataWithLinhVuc(obj){
-    var TempUrl='/personnel/get/'+obj;
+  getDataByField(obj){
+    var TempUrl='/company/'+obj;
     axios.get(TempUrl)
     .then(res => {
       this.setState({
@@ -152,12 +165,12 @@ export default class Index extends React.Component {
     .catch(error => console.log(error));
   }
 
-  getDataWithPage(obj,temp){
+  getDataByFieldAndPage(obj,temp){
     if (temp=='Toan Bo Database'){
-      var TempUrl='/personnel/get/'+obj;
+      var TempUrl='/company/'+obj;
     }
     else{
-      var TempUrl='/personnel/get/'+obj+'/'+temp;
+      var TempUrl='/company/'+obj+'/'+temp;
     }
     axios.get(TempUrl)
     .then(res => {
@@ -169,128 +182,182 @@ export default class Index extends React.Component {
     .catch(error => console.log(error));
   }
 
-  luuThongTin(obj) { 
+  saveDataCompany(obj) { 
       console.log('Dang chay ham Luu Thong Tin');
-      axios.post('/savedata',obj)
+      axios.post('/company',obj)
       .then(console.log('Da chay xong ham luu thong tin'));
   }
 
-  luuLink(){
-    x=document.getElementById('linkInput').value;
+  saveLink(){
+    x=normalize(document.getElementById('linkInput').value);
+    console.log('duong link: ',x);
     x=x.substring(0,x.indexOf(".html"));
+    x=x.replace(/ /g,'');
+    console.log('duong link: ',x);
     if (x!=""){
       var z='/';
       var k=new RegExp(z,'gi');
       var y=x.replace(k,'`');
-      var Temp = '/linhvuc/link/'+y;
+      var Temp = '/field/link/'+y;
       axios.get(Temp)
       .then(res =>
         {if (res.data==false){
-          axios.post('/linhvuc/get',{link:x})
+          axios.post('/field',{link:x})
           .then(res => console.log(res))
-          .then(() => this.setState({isLoaded:true}))
+          .then(() => this.setState({
+                              isLoaded:true,
+                              items:[]
+                            }))
           .then(() => this.getLink())
-          .then(() => this.getLinhVuc())
+          .then(() => this.getField())
           .then(() => this.getLastPage())
           .then(()=> document.getElementById('linkInput').value='')
-          .then(()=> this.getLastLinhVuc())
+          .then(()=> this.getLastField())
           .catch(error => console.log(error));
         }
         else{
           alert('Thong tin can lay da duoc lay tu truoc!');
       }})
       .catch(error => console.log(error));
-      // if (Check==false){
-      //   axios.post('/linhvuc/get',{link:x})
-      //   .then(res => console.log(res))
-      //   .then(() => this.getLink())
-      //   .then(() => this.getLinhVuc())
-      //   .then(() => this.getLastPage())
-      //   .then(()=> document.getElementById('linkInput').value='')
-      //   .then(()=> this.getLastLinhVuc())
-      //   .catch(error => console.log(error));
-      // }
     }
     else{
       alert('Vui long nhap du thong tin');
     }
   }
   
-  XoaPersonnel(){
-    var TempUrl='/personnel/linhvuc/'+this.state.selectedLinhVuc;
-    if (this.state.selectedLinhVuc!='Gia Tri Khong Ton Tai'){
+  DeleteCompanyByField(){
+    if (this.state.selectedField!=''){
+      var TempUrl='/company/field/'+this.state.selectedField;
       axios.delete(TempUrl)
-      .then(res => this.XoaLinhVuc())
-      .catch(error => console.log(error));
-    }
-    else{
-      alert('Vui lòng chọn lĩnh vực để xoá');
-    }
+        .then(res => this.DeleteFieldByField(this.state.selectedField))
+        .then(() => document.getElementById('LinhVucInput').style.visibility='hidden')
+        .then(() => document.getElementById('btnUpdate').style.visibility='hidden')
+        .then(() =>document.getElementById('dropDownLinhVuc').value='')
+        .catch(error => console.log(error));
+      }
+      else if (this.state.listSelectedField!=[]){
+        this.state.listSelectedField.map((data) => {
+          var TempEachUrl='/company/field/'+data;
+          axios.delete(TempEachUrl)
+          .then(res => this.DeleteFieldByField(data))
+          .then(() => this.getField())
+          .catch(error => console.log(error));
+        });
+        document.getElementById('LinhVucInput').style.visibility='hidden';
+        document.getElementById('btnUpdate').style.visibility='hidden';
+      }
+      else {
+        alert('Vui lòng chọn lĩnh vực để xoá');
+      }
   }
 
-  XoaLinhVuc(){
-    var TempUrl='/linhvuc/linhvuc/'+this.state.selectedLinhVuc;
+  DeleteFieldByField(obj){
+    var TempUrl='/field/'+obj;
     axios.delete(TempUrl)
-    .then(res => alert('Đã xoá lĩnh vực ' + this.state.selectedLinhVuc))
-    .then(res => this.getLinhVuc())
-    .then(res => {
+    .then(res => alert('Đã xoá lĩnh vực ' + obj))
+    .then(() => {
         this.setState({
-          selectedLinhVuc: 'Gia Tri Khong Ton Tai',
+          selectedField:'',
+          selectedOptions:[],
           items:[],
         })
     })
     .catch(error => console.log(error));
   }
 
-  UpdatePersonnel(){
-    var TempUrl='/personnel/get/'+this.state.selectedLinhVuc;
-    x=document.getElementById('LinhVucInput').value;
-    if ((x!="") && (this.state.selectedLinhVuc!='Gia Tri Khong Ton Tai')){
-      axios.put(TempUrl,{LinhVuc : x})
-      .then(res => this.UpdateLinhVuc())
-      .catch(error => console.log(error));
-    }
-    else{
-      alert('Vui lòng nhập đủ thông tin');
-    }
+  UpdateCompanyByField(){
+      var TempUrl='/company/'+this.state.selectedField;
+      x=normalize(document.getElementById('LinhVucInput').value);
+      if ((x!="") && (this.state.selectedField!='')){
+        axios.put(TempUrl,{Field : x})
+        .then(res => this.UpdateFieldByField())
+        .then(() => document.getElementById('LinhVucInput').style.visibility='hidden')
+        .then(() => document.getElementById('btnUpdate').style.visibility='hidden')
+        .catch(error => console.log(error));
+      }
+      else{
+        alert('Vui lòng nhập đủ thông tin');
+      }
   }
 
-  UpdateLinhVuc(){
-    var TempUrl='/linhvuc/linhvuc/'+this.state.selectedLinhVuc;
-    x=document.getElementById('LinhVucInput').value;
-    axios.put(TempUrl,{LinhVuc : x})
-    .then(() => alert('Đã update lĩnh vực ' + this.state.selectedLinhVuc))
-    .then(() => this.getLinhVuc())
+  UpdateFieldByField(){
+    var TempUrl='/field/'+this.state.selectedField;
+    x=normalize(document.getElementById('LinhVucInput').value);
+    axios.put(TempUrl,{Field : x})
+    .then(() => alert('Đã update lĩnh vực ' + this.state.selectedField))
+    .then(() => this.getField())
     .then(() => document.getElementById('LinhVucInput').value='')
     .then(() => {
         this.setState({
-          selectedLinhVuc: 'Gia Tri Khong Ton Tai',
+          selectedField:'',
+          selectedOptions:[],
           items:[],
         })
     })
     .catch(error => console.log(error));
   }
 
+
   LinhVucSelectOnChange(event){
-    this.setState({
-      selectedLinhVuc: event.target.value,
-      selectedPage:'Toan Bo Database',
-      isLoaded:true,
-    });
-    var Temp=event.target.value;
-    this.getDataWithLinhVuc(Temp);
-    if (Temp!='Gia Tri Khong Ton Tai'){
-      this.getPageWithLinhVuc(Temp);
-    }else{
-      this.setState({pages:[]});
+    this.setState({ selectedOptions : event});
+    console.log('Linh Vuc dang chon: ',this.state.selectedOptions);
+    if (event != null){
+      console.log(' So Luong linh vuc dg chon: ',event.length);
+      if (event.length==1)
+      {
+        this.setState({
+          listSelectedField:[],
+          selectedField: event[0].value,
+          selectedPage:'Toan Bo Database',
+          items:[],
+          isLoaded:true,
+        });
+        var Temp=event[0].value;
+        console.log('Linh vuc dg chon: ',Temp);
+        this.getDataByField(Temp);
+        this.getPageByField(Temp);
+      }
+      else
+      {
+        var Temp1=[];
+        event.map((field,i) => Temp1[i]=field.value)
+        console.log('Linh vuc dg chon: ',Temp1);
+        this.setState({
+          listSelectedField:Temp1,
+          pages:[],
+          items:[],
+          selectedField:'',
+        });
+      }
     }
+    else
+    {
+      this.setState({
+        listSelectedField:[],
+        pages:[],
+        items:[],
+        selectedField:'',
+      });
+    }
+    // if (Temp!='Gia Tri Khong Ton Tai'){
+    //   this.getPageByField(Temp);
+    // }else{
+    //   this.setState({
+    //     pages:[],
+    //     isLoaded:false,
+    //   });
+    // }
   }
 
   PageSelectOnChange(event){
-    this.setState({selectedPage: event.target.value});
+    this.setState({
+      selectedPage: event.target.value,
+      items:[],
+      isLoaded:true,
+    });
     var Temp=event.target.value;
-    var LinhVuc=this.state.selectedLinhVuc;
-    this.getDataWithPage(LinhVuc,Temp);
+    var LinhVuc=this.state.selectedField;
+    this.getDataByFieldAndPage(LinhVuc,Temp);
   }
 
   UpdateTrueFalse(){
@@ -299,10 +366,10 @@ export default class Index extends React.Component {
   }
 
   componentDidMount() {
-      this.getLinhVuc();
-      document.getElementById('btnGet').onclick=this.luuLink.bind(this);
-      document.getElementById('btnDel').onclick=this.XoaPersonnel.bind(this);
-      document.getElementById('btnUpdate').onclick=this.UpdatePersonnel.bind(this);
+      this.getField();
+      document.getElementById('btnGet').onclick=this.saveLink.bind(this);
+      document.getElementById('btnDel').onclick=this.DeleteCompanyByField.bind(this);
+      document.getElementById('btnUpdate').onclick=this.UpdateCompanyByField.bind(this);
       document.getElementById('btnUpdateAsk').onclick=this.UpdateTrueFalse.bind(this);
   }
 
@@ -316,6 +383,7 @@ export default class Index extends React.Component {
     {
       this.setState({isLoaded:false});
     }
+
   }
 
 
@@ -323,7 +391,7 @@ export default class Index extends React.Component {
     var {isLoaded,items,lists,pages} = this.state;
 
     const options = {
-      expandRowBgColor:  '#5085A5',
+      expandRowBgColor:  '#687864',
       noDataText: <BallBeat
                     color={'#4f4f4f'}
                     loading={isLoaded}
@@ -349,10 +417,16 @@ export default class Index extends React.Component {
               <button id="btnGet" >CRAWL DATA</button>
           </div>
           <div className="cung1hang">
-              <select className="SelectBox" id="dropDownLinhVuc" value={this.state.selectedLinhVuc} onChange={this.LinhVucSelectOnChange.bind(this)}>
+              <Select id="dropDownLinhVuc"
+                isMulti
+                value={this.state.selectedOptions}
+                onChange={this.LinhVucSelectOnChange.bind(this)}
+                options={lists}
+              />
+              {/* <select multiple className="SelectBox" id="dropDownLinhVuc" value={this.state.selectedField} onChange={this.LinhVucSelectOnChange.bind(this)} placeholder="Nhập lĩnh vực abc">
                     <option value='Gia Tri Khong Ton Tai'> -- Chọn Lĩnh Vực -- </option>
                     {this.state.lists.map((list) => <option key={list} value={list}>{list}</option>)}
-              </select> 
+              </select>  */}
                 <IoMdTrash className="icon" id="btnDel"/>
                 <IoMdCreate className="icon" id="btnUpdateAsk"/>
           </div>
@@ -377,11 +451,11 @@ export default class Index extends React.Component {
           expandComponent={ this.expandComponent }
           selectRow={ selectRow }>
             <TableHeaderColumn row='0' colSpan='6' dataSort csvHeader='Company' headerAlign='center'>Thông tin Công Ty</TableHeaderColumn>
-            <TableHeaderColumn  row='1' width='20%' isKey dataField='TenCongTy' headerAlign='center' dataSort={true} tdStyle={ { whiteSpace: 'normal',border: 'black 1px solid' } } filter={ { type: 'RegexFilter', placeholder: 'Enter a text' } }>Tên Công Ty</TableHeaderColumn>
+            <TableHeaderColumn  row='1' width='20%' isKey dataField='CompanyName' headerAlign='center' dataSort={true} tdStyle={ { whiteSpace: 'normal',border: 'black 1px solid' } } filter={ { type: 'RegexFilter', placeholder: 'Enter a text' } }>Tên Công Ty</TableHeaderColumn>
             <TableHeaderColumn   row='1' dataField='_id'  tdStyle={ { whiteSpace: 'normal' } } hidden>id</TableHeaderColumn>
-            <TableHeaderColumn    row='1'  width='25%'  dataField='DiaChi' headerAlign='center' dataSort={true} tdStyle={ { whiteSpace: 'normal',border: 'black 1px solid' } } filter={ { type: 'RegexFilter', placeholder: 'Enter a text' } }>Địa Chỉ</TableHeaderColumn>
-            <TableHeaderColumn  row='1'  width='10%' dataField='LinhVuc' headerAlign='center' dataSort={true} tdStyle={ { whiteSpace: 'normal' ,border: 'black 1px solid'} } filter={ { type: 'RegexFilter', placeholder: 'Enter a text' } }>Lĩnh Vực</TableHeaderColumn>
-            <TableHeaderColumn  row='1'  width='15%' dataField='SoDienThoai' headerAlign='center' dataSort={true} tdStyle={ { whiteSpace: 'normal',border: 'black 1px solid' } } filter={ { type: 'RegexFilter', placeholder: 'Enter a phone' } }>Số Điện Thoại</TableHeaderColumn>
+            <TableHeaderColumn    row='1'  width='25%'  dataField='Adress' headerAlign='center' dataSort={true} tdStyle={ { whiteSpace: 'normal',border: 'black 1px solid' } } filter={ { type: 'RegexFilter', placeholder: 'Enter a text' } }>Địa Chỉ</TableHeaderColumn>
+            <TableHeaderColumn  row='1'  width='10%' dataField='Field' headerAlign='center' dataSort={true} tdStyle={ { whiteSpace: 'normal' ,border: 'black 1px solid'} } filter={ { type: 'RegexFilter', placeholder: 'Enter a text' } }>Lĩnh Vực</TableHeaderColumn>
+            <TableHeaderColumn  row='1'  width='15%' dataField='Tel' headerAlign='center' dataSort={true} tdStyle={ { whiteSpace: 'normal',border: 'black 1px solid' } } filter={ { type: 'RegexFilter', placeholder: 'Enter a phone' } }>Số Điện Thoại</TableHeaderColumn>
             <TableHeaderColumn row='1'  width='15%' dataField='Email' headerAlign='center' dataSort={true} tdStyle={ { whiteSpace: 'normal',border: 'black 1px solid' } } filter={ { type: 'RegexFilter', placeholder: 'Enter an email' } }>Email</TableHeaderColumn>
             <TableHeaderColumn  row='1'  width='15%' dataField='Website' headerAlign='center' dataSort={true} tdStyle={ { whiteSpace: 'normal',border: 'black 1px solid' } } filter={ { type: 'RegexFilter', placeholder: 'Enter a text' } }>Website</TableHeaderColumn>
             </BootstrapTable>
