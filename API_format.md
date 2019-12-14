@@ -1,6 +1,9 @@
 # API Fortmat CrawlDataProject
+## URL: https://mydomain.com/*
+
+
 ## GET COMPANY INFOMATIONS
-### URL: https://mydomain.com/personnel/get
+### URL: company
 ### Method: GET
 
 ### Response
@@ -9,18 +12,18 @@
     success:true,
     result: {
             _id:string,
-            Trang:number,
-            LinhVuc:string,
-            TenCongTy:string,
-            DiaChi:string,
-            SoDienThoai:string,
+            Page:number,
+            Field:string,
+            CompanyName:string,
+            Adress:string,
+            Tel:string,
             Email:string,
             Website:string,
-            expand:[
-                HoTenNguoiLienHe:string,
-                EmailNguoiLienHe:string,
-                SoDiDongNguoiLienHe:string
-            ]
+            expand:[{
+                NameContact:string,
+                EmailContact:string,
+                CellPhoneContact:string
+            }]
         }
     
 }
@@ -32,23 +35,24 @@
 ```
 
 ## CREATE NEW COMPANY INFOMATION
-### URL: https://mydomain.com/savedata
+### URL: company
 ### Method: POST
 ### body:
+```json
      {
         _id:string,
-        Trang:number,
-        LinhVuc:string,
-        TenCongTy:string,
-        DiaChi:string,
-        SoDienThoai:string,
+        Page:number,
+        Field:string,
+        CompanyName:string,
+        Adress:string,
+        Tel:string,
         Email:string,
         Website:string,
-        expand:[
-            HoTenNguoiLienHe:string,
-            EmailNguoiLienHe:string,
-            SoDiDongNguoiLienHe:string
-        ]
+        expand:[{
+            NameContact:string,
+            EmailContact:string,
+            CellPhoneContact:string
+        }]
     }
 
 ### Response
@@ -58,18 +62,18 @@
     result: 
         {
             _id:string,
-            Trang:number,
-            LinhVuc:string,
-            TenCongTy:string,
-            DiaChi:string,
-            SoDienThoai:string,
+            Page:number,
+            Field:string,
+            CompanyName:string,
+            Adress:string,
+            Tel:string,
             Email:string,
             Website:string,
-            expand:[
-                HoTenNguoiLienHe:string,
-                EmailNguoiLienHe:string,
-                SoDiDongNguoiLienHe:string
-            ]
+            expand:[{
+                NameContact:string,
+                EmailContact:string,
+                CellPhoneContact:string
+            }]
         }
 }
 //TH lỗi
@@ -80,11 +84,11 @@
 ```
 
 ## UPDATE LINH VUC CHO COMPANY
-### URL: https://mydomain.com/personnel/get/:linhvuc
+### URL: company/:field
 ### Method: PUT
 ### body:
     {
-       LinhVuc:newLinhVuc;
+       Field: newField;
     }
 
 ### Response
@@ -94,18 +98,18 @@
     result: 
         {
             _id:string,
-            Trang:number,
-            LinhVuc:string,
-            TenCongTy:string,
-            DiaChi:string,
-            SoDienThoai:string,
+            Page:number,
+            Field:string,
+            CompanyName:string,
+            Adress:string,
+            Tel:string,
             Email:string,
             Website:string,
-            expand:[
-                HoTenNguoiLienHe:string,
-                EmailNguoiLienHe:string,
-                SoDiDongNguoiLienHe:string
-            ]
+            expand:[{
+                NameContact:string,
+                EmailContact:string,
+                CellPhoneContact:string
+            }]
         }
 }
 //TH lỗi
@@ -114,8 +118,9 @@
     message:"String"
 }
 ```
+
 ## DELETE COMPANY THEO LINHVUC
-### URL: https://mydomain.com/personnel/linhvuc/:linhvuc
+### URL: company/field/:field
 ### Method: DELETE  
 ### Response
 ```json
@@ -129,113 +134,9 @@
 }
 ```
 
-## GET COMPANY INFOMATIONS FROM WEB
-### URL: https://mydomain.com/getlink/:page
-### Method: GET
-### Lấy thông tin từ web với page = 1
-
-### Response
-```json
-{
-    success:true,
-    result: {
-            _id:string,
-            Trang:number,
-            LinhVuc:string,
-            TenCongTy:string,
-            DiaChi:string,
-            SoDienThoai:string,
-            Email:string,
-            Website:string,
-            expand:[
-                HoTenNguoiLienHe:string,
-                EmailNguoiLienHe:string,
-                SoDiDongNguoiLienHe:string
-            ]
-        }
-    
-}
-//TH lỗi
-{
-    success:false,
-    message:"String"
-}
-```
-
-## GET ALL LINHVUC IN DATABASE LINHVUC
-### URL: https://mydomain.com/linhvuc/linhvuc
-### Method: GET
-### Response
-```json
-{
-    success:true,
-    result:{
-            LinhVuc:string,
-        }
-}
-//TH lỗi
-{
-    success:false,
-    message:"String"
-}
-```
-
-## GET PAGE OF LINHVUC IN DATABASE LINHVUC
-### URL: https://mydomain.com/linhvuc/page/:linhvuc
-### Method: GET
-### Response
-```json
-{
-    success:true,
-    result: {
-            TongSoTrang:number,
-        }
-}
-//TH lỗi
-{
-    success:false,
-    message:"String"
-}
-```
-
-## GET PAGE OF LATEST LINHVUC IN DATABASE LINHVUC
-### URL: https://mydomain.com/linhvuc/pagelast
-### Method: GET
-### Response
-```json
-{
-    success:true,
-    result: {
-            TongSoTrang:number,
-        }
-}
-//TH lỗi
-{
-    success:false,
-    message:"String"
-}
-```
-
-## GET LATEST LINHVUC IN DATABASE LINHVUC
-### URL: https://mydomain.com/linhvuc/linhvuclast
-### Method: GET
-### Response
-```json
-{
-    success:true,
-    result: {
-            LinhVuc:string,
-        }
-}
-//TH lỗi
-{
-    success:false,
-    message:"String"
-}
-```
 
 ## GET DATA WITH LINHVUC IN DATABASE COLLECTION
-### URL: https://mydomain.com/personnel/get/:linhvuc
+### URL: company/:field
 ### Method: GET
 ### Response
 ```json
@@ -243,18 +144,18 @@
     success:true,
     result: {
             _id:string,
-            Trang:number,
-            LinhVuc:string,
-            TenCongTy:string,
-            DiaChi:string,
-            SoDienThoai:string,
+            Page:number,
+            Field:string,
+            CompanyName:string,
+            Adress:string,
+            Tel:string,
             Email:string,
             Website:string,
-            expand:[
-                HoTenNguoiLienHe:string,
-                EmailNguoiLienHe:string,
-                SoDiDongNguoiLienHe:string
-            ]
+            expand:[{
+                NameContact:string,
+                EmailContact:string,
+                CellPhoneContact:string
+            }]
         }
 }
 //TH lỗi
@@ -265,7 +166,7 @@
 ```
 
 ## GET DATA WITH LINHVUC AND PAGE IN DATABASE COLLECTION
-### URL: https://mydomain.com/personnel/get/:linhvuc/:page
+### URL: company/:field/:page
 ### Method: GET
 ### Response
 ```json
@@ -273,18 +174,124 @@
     success:true,
     result: {
             _id:string,
-            Trang:number,
-            LinhVuc:string,
-            TenCongTy:string,
-            DiaChi:string,
-            SoDienThoai:string,
+            Page:number,
+            Field:string,
+            CompanyName:string,
+            Adress:string,
+            Tel:string,
             Email:string,
             Website:string,
-            expand:[
-                HoTenNguoiLienHe:string,
-                EmailNguoiLienHe:string,
-                SoDiDongNguoiLienHe:string
-            ]
+            expand:[{
+                NameContact:string,
+                EmailContact:string,
+                CellPhoneContact:string
+            }]
+        }
+}
+//TH lỗi
+{
+    success:false,
+    message:"String"
+}
+```
+
+## GET COMPANY INFOMATIONS FROM WEB
+### URL: getlink/:page
+### Method: GET
+### Lấy thông tin từ web với pages
+
+### Response
+```json
+{
+    success:true,
+    result: {
+            _id:string,
+            Page:number,
+            Field:string,
+            CompanyName:string,
+            Adress:string,
+            Tel:string,
+            Email:string,
+            Website:string,
+            expand:[{
+                NameContact:string,
+                EmailContact:string,
+                CellPhoneContact:string
+            }]
+        }
+    
+}
+//TH lỗi
+{
+    success:false,
+    message:"String"
+}
+```
+
+
+## GET ALL LINHVUC IN DATABASE LINHVUC
+### URL: field/allfields
+### Method: GET
+### Response
+```json
+{
+    success:true,
+    result:{
+            Field:string,
+        }
+}
+//TH lỗi
+{
+    success:false,
+    message:"String"
+}
+```
+
+## GET PAGE OF LINHVUC IN DATABASE LINHVUC
+### URL: field/page/:field
+### Method: GET
+### Response
+```json
+{
+    success:true,
+    result: {
+            TotalPages:number,
+        }
+}
+//TH lỗi
+{
+    success:false,
+    message:"String"
+}
+```
+
+## GET PAGE OF LATEST LINHVUC IN DATABASE LINHVUC
+### URL: field/pagelast
+### Method: GET
+### Response
+```json
+{
+    success:true,
+    result: {
+            TotalPages:number,
+        }
+}
+//TH lỗi
+{
+    success:false,
+    message:"String"
+}
+```
+
+## GET LATEST LINHVUC IN DATABASE LINHVUC
+### URL: field/fieldlast
+### Method: GET
+### Response
+```json
+{
+    success:true,
+    result: {
+            Field:string,
         }
 }
 //TH lỗi
@@ -295,14 +302,14 @@
 ```
 
 ## CREATE NEW LINHVUC
-### URL: https://mydomain.com/linhvuc/get
+### URL: field
 ### Method: POST
 ### body:
      {
         _id:string,
         link:String,
-        LinhVuc:string,
-        TongSoTrang:number
+        Field:string,
+        TotalPages:number
     }
 
 ### Response
@@ -313,8 +320,8 @@
         {
             _id:string,
             link:String,
-            LinhVuc:string,
-            TongSoTrang:number
+            Field:string,
+            TotalPages:number
         }
 }
 //TH lỗi
@@ -325,7 +332,7 @@
 ```
 
 ## DELETE DATABASE LINHVUC THEO LINHVUC
-### URL: https://mydomain.com/linhvuc/linhvuc/:linhvuc
+### URL: field/:field
 ### Method: DELETE  
 ### Response
 ```json
@@ -340,7 +347,7 @@
 ```
 
 ## UPDATE LINHVUC CHO DATABASE LINHVUC
-### URL: https://mydomain.com/linhvuc/linhvuc/:linhvuc
+### URL: field/:field
 ### Method: PUT  
 ### Response
 ```json
@@ -350,8 +357,8 @@
         {
             _id:string,
             link:String,
-            LinhVuc:string,
-            TongSoTrang:number
+            Field:string,
+            TotalPages:number
         }
 }
 //TH lỗi
@@ -362,14 +369,14 @@
 ```
 
 ## CHECK LINK TRONG DATABASE LINHVUC
-### URL: https://mydomain.com/linhvuc/link/:linhvuc
+### URL: field/link/:link
 ### Method: GET  
 ### Response
 ```json
 {
     success:true,
     result:[
-        if response.length == 0 
+        if response.length == 0
             return true
         else
             return false
