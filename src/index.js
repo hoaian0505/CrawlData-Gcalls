@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+// import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios';
 import Select from 'react-select';
 import { BallBeat } from 'react-pure-loaders';
