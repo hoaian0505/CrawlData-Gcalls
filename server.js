@@ -1,8 +1,10 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
-const mongo = require('mongodb').MongoClient;
-const url = 'mongodb://localhost:27017';
+// const mongo = require('mongodb').MongoClient;
+// const url = 'mongodb://localhost:27017';
+const MongoClient = require('mongodb').MongoClient;
+const uri = "mongodb+srv://tomasnguyen0505:An551998@companydata-cb920.mongodb.net/test?retryWrites=true&w=majority";
 const requestLink = require('request');
 const normalize = require('normalize-text').normalizeWhitespaces;
 var cheerio = require('cheerio');
@@ -179,16 +181,31 @@ app.use('',fieldRoute);
 
 app.listen(port, function () {
     console.log('App listening on port: ' + port);
-    mongo.connect(url, { useNewUrlParser: true, useUnifiedTopology: true}, (err, client) => {
-        if (err) {
-          console.error(err)
-        }
-        db = client.db('mydb');
-        company = db.collection('company');
-        field = db.collection('field');
-        console.log('Connected to database');
-    });    
+    // mongo.connect(url, { useNewUrlParser: true, useUnifiedTopology: true}, (err, client) => {
+    //     if (err) {
+    //       console.error(err)
+    //     }
+    //     db = client.db('mydb');
+    //     company = db.collection('company');
+    //     field = db.collection('field');
+    //     console.log('Connected to database');
+    // });   
+    
+    MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true}, (err, client) => {
+      if (err) {
+        console.error(err)
+      }
+      db = client.db('mydb');
+      company = db.collection('company');
+      field = db.collection('field');
+      console.log('Connected to database');
+  }); 
 });
 
-
+// const client = new MongoClient(uri, { useNewUrlParser: true });
+// client.connect(err => {
+//   const collection = client.db("test").collection("devices");
+//   // perform actions on the collection object
+//   client.close();
+// });
 
