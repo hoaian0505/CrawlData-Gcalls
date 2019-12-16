@@ -233,6 +233,7 @@ export default class Index extends React.Component {
         .then(() => document.getElementById('LinhVucInput').style.visibility='hidden')
         .then(() => document.getElementById('btnUpdate').style.visibility='hidden')
         .then(() =>document.getElementById('dropDownLinhVuc').value='')
+        .then(() => this.getField())
         .catch(error => console.log(error));
       }
       else if (this.state.listSelectedField!=[]){
