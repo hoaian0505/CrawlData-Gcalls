@@ -11,6 +11,9 @@ var cheerio = require('cheerio');
 const companyRoute = require('./routes/company');
 const fieldRoute = require('./routes/field');
 
+var db;
+var company;
+var field;
 const app = express();
 const port = process.env.PORT || 5555;
 const DIST_DIR = path.join(__dirname, './dist'); // NEW
