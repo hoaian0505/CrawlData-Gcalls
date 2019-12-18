@@ -23,11 +23,7 @@ app.use(bodyParser.urlencoded({
 
 app.use(express.static(DIST_DIR)); // NEW
 
-MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true,
-  socketOptions: {
-        connectTimeoutMS: 120000
-    }
-  }, (err, client) => {
+MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true, connectTimeoutMS:120000}, (err, client) => {
   if (err) {
     console.error(err)
   }
