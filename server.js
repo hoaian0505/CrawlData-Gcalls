@@ -23,10 +23,15 @@ app.use(bodyParser.urlencoded({
 
 app.use(express.static(DIST_DIR)); // NEW
 
-MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true}, (err, client) => {
+MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true,  server: {
+    socketOptions: {
+        connectTimeoutMS: 120000
+    }
+  }}, (err, client) => {
   if (err) {
     console.error(err)
   }
+
   db = client.db('mydb');
   company = db.collection('company');
   field = db.collection('field');
