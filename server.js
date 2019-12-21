@@ -160,12 +160,16 @@ app.get('/', (req, res) => {
               Tel : TelVal,
               Email : EmailVal,
               Website : WebsiteVal,
-              expand:[{
-                NameContact: HoTenPerVal,
-                EmailContact: EmailPerVal,
-                TelContact: TelPerVal,
-                CellPhoneContact: PhonePerVal
-              }]
+              NameContact: HoTenPerVal,
+              EmailContact: EmailPerVal,
+              TelContact: TelPerVal,
+              CellPhoneContact: PhonePerVal
+              // expand:[{
+              //   NameContact: HoTenPerVal,
+              //   EmailContact: EmailPerVal,
+              //   TelContact: TelPerVal,
+              //   CellPhoneContact: PhonePerVal
+              // }]
             }
           }
           else{
@@ -177,12 +181,16 @@ app.get('/', (req, res) => {
               Tel : TelVal,
               Email : EmailVal,
               Website : WebsiteVal,
-              expand:[{
-                NameContact: HoTenPerVal,
-                EmailContact: EmailPerVal,
-                TelContact: TelPerVal,
-                CellPhoneContact: PhonePerVal
-              }]
+              NameContact: HoTenPerVal,
+              EmailContact: EmailPerVal,
+              TelContact: TelPerVal,
+              CellPhoneContact: PhonePerVal
+              // expand:[{
+              //   NameContact: HoTenPerVal,
+              //   EmailContact: EmailPerVal,
+              //   TelContact: TelPerVal,
+              //   CellPhoneContact: PhonePerVal
+              // }]
             }
           }
           count=count+1;
