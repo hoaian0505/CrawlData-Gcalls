@@ -29,7 +29,11 @@ export default class Index extends React.Component {
       }  
   }
 
-  CellFormatter(cell, row) {
+  CellFormatter(cell, row){
+    return (<div><p title={cell}>{cell}</p></div>);
+  }
+
+  WebsiteFormatter(cell, row) {
     var str=cell;
     var link=[];
     var n=0;
@@ -50,13 +54,13 @@ export default class Index extends React.Component {
       link[n+1]=normalize(str);
       return (
         <div>
-        {link.map((tempLink) => <div><a href={"http://"+tempLink} target="_blank">{tempLink}</a></div>)}
+        {link.map((tempLink) => <div><a title={tempLink} href={"http://"+tempLink} target="_blank">{tempLink}</a></div>)}
         </div>
       );
     }
     else
     {
-      return (<div><a href={"http://"+cell} target="_blank">{cell}</a></div>);
+      return (<div><a title={cell} href={"http://"+cell} target="_blank">{cell}</a></div>);
     }
   }
 
@@ -147,7 +151,7 @@ export default class Index extends React.Component {
     axios.get(TempUrl)
     .then(res => {
       this.setState({
-          items: res.data,
+          items: this.state.items.concat(res.data)
       })
     })
     .then(console.log(TempUrl))
@@ -310,14 +314,16 @@ export default class Index extends React.Component {
       else
       {
         var Temp1=[];
-        event.map((field,i) => Temp1[i]=field.value)
+        event.map((field,i) => Temp1[i]=field.value);
         console.log('Linh vuc dg chon: ',Temp1);
         this.setState({
           listSelectedField:Temp1,
           pages:[],
           items:[],
+          isLoaded:true,
           selectedField:'',
         });
+        Temp1.map((fieldGotten) => this.getDataByField(fieldGotten));
       }
     }
     else
@@ -437,7 +443,7 @@ export default class Index extends React.Component {
           <BootstrapTable data={items} striped hover multiColumnSort={ 9 } exportCSV={ true } pagination 
           headerStyle={ { color:'#fff',background:'#31708E'} }
           options={ options }
-          containerStyle={{width: '100%',overflow: 'scroll'}}
+          
           selectRow={ selectRow }>
             <TableHeaderColumn row='0' colSpan='10' dataSort csvHeader='Company' headerAlign='center'>Thông tin Công Ty</TableHeaderColumn>
             <TableHeaderColumn row='1' width='250' isKey dataField='CompanyName' headerAlign='center' dataSort={true} tdStyle={ { whiteSpace: 'normal',border: 'black 1px solid' } } filter={ { type: 'RegexFilter', placeholder: 'Enter a text' } }>Tên Công Ty</TableHeaderColumn>
@@ -445,10 +451,10 @@ export default class Index extends React.Component {
             <TableHeaderColumn row='1'  width='300'  dataField='Adress' headerAlign='center' dataSort={true} tdStyle={ { whiteSpace: 'normal',border: 'black 1px solid' } } filter={ { type: 'RegexFilter', placeholder: 'Enter a text' } }>Địa Chỉ</TableHeaderColumn>
             <TableHeaderColumn row='1'  width='100' dataField='Field' headerAlign='center' dataSort={true} tdStyle={ { whiteSpace: 'normal' ,border: 'black 1px solid'} } filter={ { type: 'RegexFilter', placeholder: 'Enter a text' } }>Lĩnh Vực</TableHeaderColumn>
             <TableHeaderColumn row='1'  width='150' dataField='Tel' headerAlign='center' dataSort={true} tdStyle={ { whiteSpace: 'normal',border: 'black 1px solid' } } filter={ { type: 'RegexFilter', placeholder: 'Enter a phone' } }>Số Điện Thoại</TableHeaderColumn>
-            <TableHeaderColumn row='1'  width='150' dataField='Email' headerAlign='center' dataSort={true} tdStyle={ { whiteSpace: 'normal',border: 'black 1px solid' } } filter={ { type: 'RegexFilter', placeholder: 'Enter an email' } }>Email</TableHeaderColumn>
-            <TableHeaderColumn row='1'  width='150' dataField='Website' headerAlign='center' dataSort={true} tdStyle={ { whiteSpace: 'normal',border: 'black 1px solid' } } dataFormat={this.CellFormatter} filter={ { type: 'RegexFilter', placeholder: 'Enter a text' } }>Website</TableHeaderColumn>
+            <TableHeaderColumn row='1'  width='150' dataField='Email' headerAlign='center' dataSort={true} tdStyle={ { whiteSpace: 'normal',border: 'black 1px solid' } } dataFormat={this.CellFormatter} filter={ { type: 'RegexFilter', placeholder: 'Enter an email' } }>Email</TableHeaderColumn>
+            <TableHeaderColumn row='1'  width='150' dataField='Website' headerAlign='center' dataSort={true} tdStyle={ { whiteSpace: 'normal',border: 'black 1px solid' } } dataFormat={this.WebsiteFormatter} filter={ { type: 'RegexFilter', placeholder: 'Enter a text' } }>Website</TableHeaderColumn>
             <TableHeaderColumn row='1'  width='200'  dataField='NameContact' headerAlign='center' dataSort={true} tdStyle={ { whiteSpace: 'normal',border: 'black 1px solid' } } filter={ { type: 'RegexFilter', placeholder: 'Enter a text' } }>Họ Tên Người Liên Hệ</TableHeaderColumn>
-            <TableHeaderColumn row='1'  width='150'  dataField='EmailContact' headerAlign='center' dataSort={true} tdStyle={ { whiteSpace: 'normal',border: 'black 1px solid' } } filter={ { type: 'RegexFilter', placeholder: 'Enter a text' } }>Email Người Liên Hệ</TableHeaderColumn>
+            <TableHeaderColumn row='1'  width='150'  dataField='EmailContact' headerAlign='center' dataSort={true} tdStyle={ { whiteSpace: 'normal',border: 'black 1px solid' } } dataFormat={this.CellFormatter} filter={ { type: 'RegexFilter', placeholder: 'Enter a email' } }>Email Người Liên Hệ</TableHeaderColumn>
             <TableHeaderColumn row='1'  width='150'  dataField='TelContact' headerAlign='center' dataSort={true} tdStyle={ { whiteSpace: 'normal',border: 'black 1px solid' } } filter={ { type: 'RegexFilter', placeholder: 'Enter a phone' } }>Số điện thoại Người Liên Hệ</TableHeaderColumn>
             <TableHeaderColumn row='1'  width='150'  dataField='CellPhoneContact' headerAlign='center' dataSort={true} tdStyle={ { whiteSpace: 'normal',border: 'black 1px solid' } } filter={ { type: 'RegexFilter', placeholder: 'Enter a phone' } }>Số di động Người Liên Hệ</TableHeaderColumn>
             </BootstrapTable>
