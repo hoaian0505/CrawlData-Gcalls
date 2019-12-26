@@ -1,10 +1,12 @@
+require('dotenv').config()
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 // const mongo = require('mongodb').MongoClient;
 // const url = 'mongodb://localhost:27017';
 const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://tomasnguyen0505:An551998@companydata-cb920.mongodb.net/test?retryWrites=true&w=majority";
+//const uri = "mongodb+srv://tomasnguyen0505:An551998@companydata-cb920.mongodb.net/test?retryWrites=true&w=majority";
+const uri=process.env.MONGO_URI;
 const requestLink = require('request');
 const normalize = require('normalize-text').normalizeWhitespaces;
 var cheerio = require('cheerio');
@@ -32,7 +34,7 @@ MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true, conn
   company = db.collection('company');
   field = db.collection('field');
   console.log('Connected to database');
-
+  console.log(process.env.VIETNAM);
   app.listen(port, function () {
     console.log('App listening on port: ' + port);
   
