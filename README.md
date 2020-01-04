@@ -6,7 +6,7 @@
 
 ## Chạy bằng dockerfile
 - Cài docker và tạo image cho project (hướng dẫn trên mạng)
-- Chạy hàm: docker run --rm -d -p 5555:5555 <name>:latest
+- Chạy hàm: docker run --rm -d -p 5555:5555 'image-name':latest
 - Mở localhost:5555 để truy cập
 
 # CrawlData-Gcalls (For USER)
