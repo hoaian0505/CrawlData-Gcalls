@@ -1,5 +1,6 @@
 require('dotenv').config()
 const express = require('express');
+const session = require('express-session');
 const path = require('path');
 const bodyParser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
@@ -9,6 +10,7 @@ const normalize = require('normalize-text').normalizeWhitespaces;
 var cheerio = require('cheerio');
 const companyRoute = require('./routes/company');
 const fieldRoute = require('./routes/field');
+const userRoute = require('./routes/user');
 
 const app = express();
 const port = process.env.PORT || 5555;
@@ -19,7 +21,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
      extended:true,
  }))
-
+// app.use(session);
 app.use(express.static(DIST_DIR)); // NEW
 
 MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true, connectTimeoutMS:120000}, (err, client) => {
@@ -30,8 +32,9 @@ MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true, conn
   db = client.db('mydb');
   company = db.collection('company');
   field = db.collection('field');
+  user = db.collection('user');
   console.log('Connected to database');
-  console.log(process.env.VIETNAM);
+
   app.listen(port, function () {
     console.log('App listening on port: ' + port);
   
@@ -39,8 +42,9 @@ MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true, conn
 }); 
 
 
-app.get('/', (req, res) => {
+app.get('/app/*', (req, res) => {
     res.sendFile(HTML_FILE); // EDIT
+    //res.sendFile(path.join(__dirname,'./src/index.html')); // EDIT
 });
   // CRAWL DATA EXAMPLE
 
@@ -202,3 +206,4 @@ app.get('/', (req, res) => {
   
 app.use('',companyRoute);
 app.use('',fieldRoute);
+app.use('/user',userRoute);

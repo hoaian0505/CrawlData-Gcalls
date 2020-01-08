@@ -6,8 +6,8 @@
     text-align: center;
     font-size:40px;
     background:#687864;
-  }
-  
+}
+
 body{
     background: #F2F2F2;
 }
@@ -116,6 +116,19 @@ footer{
 
 }
 
+.iconLogOut{ 
+    position: absolute;
+    right: 15px;
+    top:5px;
+    color:#40a9ff;
+    font-size: 50px;
+    cursor: pointer;
+}
+
+.iconLogOut:hover{
+    color:#fff;
+}
+
 #LinhVucInput{
     visibility: hidden;
 }
@@ -145,4 +158,8 @@ footer{
 
 .col-hidden{
     display: none;
+}
+
+.form-horizontal{
+    margin-top:30px;
 }
