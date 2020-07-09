@@ -1,7 +1,7 @@
 # CrawlData-Gcalls (For DEV)
 ## Full CrawlData Project (Nodejs+Express+React)
 
-- Mở terminal chạy hàm : npm install
+- Mở terminal chạy hàm : npm install --save
 - Sau khi cài hết packages, chạy hàm để run project : npm run dev
 
 ## Chạy bằng dockerfile
